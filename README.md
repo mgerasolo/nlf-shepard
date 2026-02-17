@@ -645,4 +645,175 @@ If working on AppBrain, see special-cases/appbrain.md for additional steps.
 
 ---
 
-**Last Updated:** 2025-12-26
+## ShepardProtocol v2 Features
+
+Version 2 introduces protocol versioning, methodology tracking, canary testing, and improved feedback loops.
+
+### Protocol Versioning
+
+Protocols are now stored in versioned releases at `/mnt/foundry_resources/protocols/releases/`:
+
+```
+protocols/
+├── releases/
+│   └── v1.0.0/
+│       ├── ai-workflow/
+│       ├── baton/
+│       ├── deployment/
+│       └── ...
+├── CHANGELOG.md
+└── VERSION_TEMPLATE.md
+```
+
+Each deployed protocol includes `_version.md` tracking:
+- Protocol name and version
+- Deployment date
+- Source (ShepardProtocol)
+- Checksum for drift detection
+
+### Methodology Tracking
+
+Projects can use different development methodologies:
+
+| Type | Description | Commands |
+|------|-------------|----------|
+| `bmad` | BMAD methodology | /wf, build phases |
+| `design-os` | Design OS workflow | /wf, /marathon |
+| `agent-os` | Agent OS workflow | Varies |
+| `custom` | Custom methodology | Project-specific |
+| `none` | Ad-hoc development | Standard commands |
+
+Check methodology with:
+```bash
+./shepard.sh methodology list
+./shepard.sh methodology detect <project>
+```
+
+### Protocol Pinning
+
+Pin specific protocol versions with reasons and review dates:
+
+```bash
+# List all pins
+./shepard.sh pins
+
+# Add a pin (in projects.json)
+"protocol_pins": {
+  "ai-workflow": {
+    "version": "1.0.0",
+    "pinned_date": "2026-02-17",
+    "reason": "Custom modifications in Phase 7",
+    "review_date": "2026-05-17",
+    "status": "active"
+  }
+}
+```
+
+Pins expire and are flagged for review.
+
+### Canary Testing
+
+Test protocol changes on one project before rolling out to all:
+
+```bash
+# Start canary
+./shepard.sh canary start <protocol> <version> <project>
+
+# Check status
+./shepard.sh canary status <protocol>
+
+# Promote to all (after testing)
+./shepard.sh canary promote <protocol>
+
+# Abort if issues found
+./shepard.sh canary abort <protocol>
+```
+
+Canaries track:
+- Protocol and version being tested
+- Canary project name
+- Start date and expected rollout
+- Pending projects for later rollout
+
+### Drift Detection
+
+Detect when deployed protocols differ from source:
+
+```bash
+# Check a specific project
+./shepard.sh drift <project> <protocol>
+
+# Check all projects for specific protocol
+./shepard.sh drift --protocol ai-workflow
+```
+
+Drift is detected via checksum comparison in `_version.md`.
+
+### Core/Custom Pattern
+
+Protocols now support a core/custom split:
+
+```
+.claude/protocols/ai-workflow/
+├── core/           # Read-only, managed by ShepardProtocol
+│   ├── _version.md
+│   ├── PROTOCOL.md
+│   └── phases/
+└── custom/         # Project-owned customizations
+    ├── overrides.md
+    └── extensions/
+```
+
+**Rules:**
+- Never modify `core/` directly - changes get overwritten
+- All customizations go in `custom/`
+- Infrastructure audits customs via herding and promotes good ones to core
+
+### Herding Feedback Loop
+
+Projects submit feedback via herding when protocols have gaps:
+
+1. Project encounters issue with protocol
+2. Project documents in custom layer + submits feedback
+3. Infrastructure audits submission
+4. Good patterns promoted to core
+5. Core updated, custom cleaned up on next rollout
+
+See `/mnt/foundry_resources/herding/` for templates.
+
+### v2 Schema Changes
+
+`projects.json` now supports:
+
+```json
+{
+  "methodology": {
+    "type": "bmad",
+    "version": "1.0",
+    "commands": ["wf"],
+    "phases": ["ideation", "design", "build"]
+  },
+  "protocol_pins": {
+    "ai-workflow": {
+      "version": "1.0.0",
+      "reason": "Custom Phase 7",
+      "review_date": "2026-05-17"
+    }
+  }
+}
+```
+
+`canaries` array at root level tracks active canary tests.
+
+### Migration to v2
+
+Existing projects work unchanged. To adopt v2 features:
+
+1. Add `methodology` field to project entry
+2. Add `protocol_pins` if using custom versions
+3. Deploy protocols with `_version.md` tracking
+4. Use canary testing for major changes
+
+---
+
+**Last Updated:** 2026-02-17
