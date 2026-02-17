@@ -1,0 +1,37 @@
+## COPY-PASTE PROMPT FOR PROJECT UPDATES ##
+
+I need to update this project with the latest standardized response format and baton context management system.
+
+Please follow these steps:
+
+1. Read the standardized response format from:
+   /home/mgerasolo/Dev/self-improving-ai/skeleton_template/CLAUDE.md.template
+
+2. Read the baton skill from:
+   /home/mgerasolo/Dev/self-improving-ai/skeleton_template/.claude-code/skills/baton/SKILL.md
+
+3. Update this project's CLAUDE.md to include:
+   - Standardized Response Format section (with bullet list format requirement)
+   - Context Management Protocol section (baton system)
+   - Keep all existing project-specific content
+
+4. Copy the baton skill to this project:
+   - Target: .claude-code/skills/baton/SKILL.md
+
+5. Initialize baton directory structure:
+   - Create .claude/ directory with CONVERSATION_HISTORY.md, BUGS.md, DECISIONS.md
+   - Create .claude/conversations/ directory
+
+6. Verify the format works by responding to this message using the standardized format
+
+CRITICAL REQUIREMENTS:
+- All sections MUST use bullet list format (dash prefix) for proper line break rendering
+- Example: "- [Conversation title]" NOT "[Conversation title]"
+- This is a CommonMark markdown requirement
+
+Reference project: /home/mgerasolo/Dev/self-improving-ai/
+
+After completion, test that:
+- Line breaks render properly in your response
+- /baton commands are available
+- Format includes all 8 sections (Title, Request, Tasks, Summary, Next, Required Tasks, USER ACTION NEEDED, Additional Notes, Context)

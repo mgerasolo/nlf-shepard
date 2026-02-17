@@ -1,0 +1,8 @@
+# Database files
+db/shepherd.db
+
+# Backup files
+*.backup
+
+# Temp files
+*.tmp

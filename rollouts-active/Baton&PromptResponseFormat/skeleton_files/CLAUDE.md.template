@@ -1,0 +1,217 @@
+## Context Management Protocol
+
+This project uses a structured context management system in `.claude/` to solve compaction problems and enable multi-conversation workflows.
+
+### Auto-Behavior (Always Follow)
+
+**On Session Start:**
+1. Check `.claude/CURRENT_CONVERSATION_ID` for conversation ID
+2. Read `.claude/CONVERSATION_HISTORY.md` for overview of all conversations
+3. Read `.claude/conversations/{conv-id}/SUMMARY.md` for this conversation's TLDR
+4. Read `.claude/BUGS.md` and `.claude/DECISIONS.md` (filter to your conv-id)
+5. Total: ~1,000 tokens for full context restoration
+
+**During Work:**
+- Update `.claude/conversations/{conv-id}/SUMMARY.md` after significant actions
+- Append to `.claude/BUGS.md` when discovering bugs (tag with conv-id)
+- Append to `.claude/DECISIONS.md` when making architecture decisions (tag with conv-id)
+- Update `.claude/CONVERSATION_HISTORY.md` when completing major milestones
+
+**After Compaction:**
+- IMMEDIATELY read `.claude/CONVERSATION_HISTORY.md`
+- IMMEDIATELY read your conversation's `SUMMARY.md`
+- Resume work with full context
+- DO NOT re-read full conversation logs (too expensive)
+
+### Standardized Response Format
+
+**MANDATORY:** All responses must use this format for consistency across 20-30 conversation tabs.
+
+**CRITICAL:** Every bold header must start on its own line with a blank line before it.
+
+```markdown
+**Title:**
+- [Conversation title from baton rename, max 60 chars]
+
+**Request:**
+- [Up to 120 char summary of last message, or 2 if last was clarification]
+
+**Tasks:**
+- ✅ [Owner] [Details...] Completed task description
+- ⬜ [Owner] [Status] [Details...] Incomplete task description
+
+**Summary:**
+- Portfolio manager perspective: features, branding, cost, big picture
+- Avoid deep technical specifics (function names, implementation details)
+- Focus on what was accomplished and why it matters
+
+**Next:**
+- [Next immediate action or "None"]
+
+**Required Tasks:**
+- Tasks needed to complete objective (if not in task list above)
+
+**USER ACTION NEEDED:**
+- Actions requiring human decision or input
+
+**Additional Notes:**
+- [Flexible content: code blocks, technical details, extended explanations]
+
+**Context:**
+- XX% used, YY% remaining
+```
+
+**Emoji Legend:**
+
+**Owner** (one):
+- 🤖 Claude Code
+- 👨‍🔧 Human Portfolio Manager
+- 👤 Other Assignee
+
+**Status** (one, for incomplete tasks):
+- ⏳ Need to wait
+- 🛑 Blocked
+- 🤚 On Hold
+- 🏳️ Ready to Start
+- 💤 Long term hold, may be dropped
+- 💬 Need to discuss first
+
+**Details** (multiple allowed):
+- 🔸 Required
+- 🔹 Optional Step, User discretion
+- ⚠️ May cause issues, concern noted
+- ∥ Parallel - can run via sub-agents
+- ⚙️ Settings change in web interface
+- 🔬 Testing Task
+- 📚 Documentation Task
+
+**Example:**
+```markdown
+**Title:**
+- Baton Context Management System
+
+**Request:**
+- Add standardized output formatting with task tracking and portfolio manager-focused summaries
+
+**Tasks:**
+- ✅ 🤖 🔸 📚 Designed standardized response format
+- ✅ 🤖 🔸 📚 Updated CLAUDE.md with formatting rules
+- ⬜ 🤖 🏳️ 🔸 📚 Update baton SKILL.md documentation
+- ⬜ 🤖 🏳️ 🔸 Update skeleton_template files
+- ⬜ 👨‍🔧 💬 🔹 Review and approve format
+
+**Summary:**
+- Implemented standardized output format for quick orientation across tabs
+- Format includes conversation title, context %, task tracking with rich emoji metadata
+- Designed for portfolio manager perspective: features, cost, big picture coordination
+- Reduces cognitive load when managing 20-30 concurrent conversation threads
+
+**Next:**
+- Update skeleton_template files with new format
+
+**Required Tasks:**
+- None beyond task list above
+
+**USER ACTION NEEDED:**
+- Review format and provide feedback
+- Test across multiple conversation tabs
+
+**Additional Notes:**
+- All sections now use bullet list format (dash prefix) to force proper markdown line breaks
+- This ensures consistent rendering across Claude Code's CommonMark implementation
+
+**Context:**
+- 45% used, 55% remaining
+```
+
+### File Structure
+
+```
+.claude/
+├── CONVERSATION_HISTORY.md          # All conversations TLDR (~200 tokens)
+├── BUGS.md                          # All bugs, tagged with conv-id
+├── DECISIONS.md                     # All decisions, tagged with conv-id
+├── CURRENT_CONVERSATION_ID          # Current conversation ID
+└── conversations/
+    └── {conv-id}/
+        └── SUMMARY.md               # This conversation's TLDR (~300 tokens)
+```
+
+### SUMMARY.md Format
+
+Keep SUMMARY.md up-to-date with:
+- Context in 3 Lines (high-level overview)
+- Task Checklist (what's done, what's pending)
+- Decisions Made (in this conversation)
+- Key Files Created/Modified
+- Failed Attempts (don't retry these)
+- Next Actions (prioritized list)
+- State Snapshot (exact current state)
+
+### Conversation ID Tagging
+
+When adding to shared files (BUGS.md, DECISIONS.md):
+```markdown
+**Conv:** conv-20251223-225929
+```
+
+This allows:
+- Multiple conversations to work simultaneously
+- Each conversation to identify their work
+- Shared awareness across all conversations
+
+### Manual Control
+
+Use `/baton` skill for explicit operations:
+
+**Core Commands:**
+- `/baton init` - Initialize new conversation
+- `/baton load` or `/baton` - Display current TLDR
+- `/baton save [note]` - Manual save current state
+- `/baton update [section]` - Auto-update SUMMARY.md from recent activity
+- `/baton rename <title>` - Set conversation title (max 60 chars)
+- `/baton rename --suggest` - Get AI-generated title suggestions
+- `/baton history` - Show all conversations with titles
+- `/baton status` - Check token usage, get save recommendations
+- `/baton archive` - Archive completed items to prevent bloat
+
+**Navigation & Switching:**
+- `/baton switch <conv-id-or-title>` - Switch to different conversation
+- `/baton switch --recent` - Show recent conversations to choose from
+
+**Search & Discovery:**
+- `/baton search <term>` - Search across all conversations, bugs, decisions
+- `/baton search --bugs <term>` - Search only bugs
+- `/baton search --decisions <term>` - Search only decisions
+- `/baton search --conversations <term>` - Search only conversations
+- `/baton context <topic>` - Load relevant past context (smart search)
+
+**Reporting & Analytics:**
+- `/baton report [timeframe]` - Generate work summary report
+- `/baton report --today` - Today's work summary
+- `/baton report --week` - Past week summary
+- `/baton report --conversation <id>` - Specific conversation report
+- `/baton metrics` - Show baton system effectiveness metrics
+- `/baton stats` - Alias for metrics
+
+**Validation & Health:**
+- `/baton validate` - Check file structure integrity
+- `/baton health` - Alias for validate
+
+**Configuration:**
+- `/baton auto-save on|off|status` - Configure auto-save triggers
+- `/baton template create <name>` - Create custom SUMMARY.md template
+- `/baton template use <name>` - Switch to custom template
+- `/baton template list` - Show available templates
+
+**Git Integration:**
+- `/baton git-link` - Associate conversation with current git branch
+- `/baton git-summary` - Generate commit message from SUMMARY.md
+
+### Token Efficiency
+
+- Full conversation: 50,000+ tokens
+- TLDR summary: 500-2,000 tokens
+- Compression: 25-100x
+- Post-compaction reads: ~1,000 tokens total
+- Enables: Long autonomous sessions without context loss

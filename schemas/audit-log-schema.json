@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ShepardProtocol Audit Log",
+  "description": "Tracks all rollout executions performed via ShepardProtocol",
+  "type": "object",
+  "required": ["version", "entries"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "description": "Audit log format version"
+    },
+    "entries": {
+      "type": "array",
+      "description": "Chronological list of rollout executions",
+      "items": {
+        "type": "object",
+        "required": ["rollout", "timestamp", "executor", "projects_affected", "summary"],
+        "properties": {
+          "rollout": {
+            "type": "string",
+            "description": "Name of the rollout executed"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of execution start"
+          },
+          "executor": {
+            "type": "string",
+            "description": "Who/what executed the rollout (user, agent, automation)"
+          },
+          "execution_mode": {
+            "type": "string",
+            "enum": ["manual", "automated-sequential", "automated-parallel", "mixed"],
+            "description": "How the rollout was executed"
+          },
+          "projects_affected": {
+            "type": "array",
+            "description": "List of projects modified by this rollout",
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "host", "status"],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Project identifier"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Project display name"
+                },
+                "host": {
+                  "type": "string",
+                  "description": "Host machine name"
+                },
+                "priority": {
+                  "type": "string",
+                  "enum": ["critical", "high", "medium", "low"]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["complete", "failed", "partial", "skipped"],
+                  "description": "Result of rollout for this project"
+                },
+                "changes": {
+                  "type": "string",
+                  "description": "Description of changes made"
+                },
+                "agent_id": {
+                  "type": "string",
+                  "description": "Agent task ID if executed by agent"
+                },
+                "error": {
+                  "type": "string",
+                  "description": "Error message if failed"
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "object",
+            "required": ["total_projects", "successful", "failed"],
+            "properties": {
+              "total_projects": {
+                "type": "integer",
+                "description": "Total projects affected"
+              },
+              "successful": {
+                "type": "integer",
+                "description": "Number of successful migrations"
+              },
+              "failed": {
+                "type": "integer",
+                "description": "Number of failed migrations"
+              },
+              "skipped": {
+                "type": "integer",
+                "description": "Number of skipped projects"
+              },
+              "projects_with_changes": {
+                "type": "integer",
+                "description": "Projects where actual changes were made"
+              },
+              "projects_already_compliant": {
+                "type": "integer",
+                "description": "Projects that were already compliant"
+              }
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional context or observations"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors encountered",
+            "items": {
+              "type": "object",
+              "properties": {
+                "project": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "resolution": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

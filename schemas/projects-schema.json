@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shepard-projects-schema-v2",
+  "title": "ShepardProtocol Projects Registry v2",
+  "description": "Schema for projects.json with methodology and version tracking",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string" },
+    "updated": { "type": "string", "format": "date-time" },
+    "note": { "type": "string" },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Unique project identifier" },
+          "name": { "type": "string", "description": "Display name" },
+          "path": { "type": "string", "description": "Filesystem path" },
+          "host": { "type": "string", "description": "Host machine (friday, stark, etc.)" },
+          "type": { 
+            "type": "string", 
+            "enum": ["infrastructure", "production", "development", "experimental", "archived"],
+            "description": "Project environment type"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "description": "Project priority level"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "paused", "archived", "retired"],
+            "description": "Current project status"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Categorization tags"
+          },
+          "contacts": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Project maintainers"
+          },
+          "methodology": {
+            "type": "object",
+            "description": "Development methodology used",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["bmad", "design-os", "agent-os", "custom", "none"],
+                "description": "Methodology type"
+              },
+              "version": { "type": "string", "description": "Methodology version" },
+              "commands": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Available command prefixes"
+              },
+              "phases": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Workflow phases"
+              },
+              "config_path": { "type": "string", "description": "Path to methodology config" }
+            },
+            "required": ["type"]
+          },
+          "protocol_versions": {
+            "type": "object",
+            "description": "Pinned protocol versions",
+            "additionalProperties": { "type": "string" }
+          },
+          "protocol_pins": {
+            "type": "object",
+            "description": "Protocol pinning with reasons and review dates",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "version": { "type": "string" },
+                "pinned_date": { "type": "string", "format": "date" },
+                "reason": { "type": "string" },
+                "review_date": { "type": "string", "format": "date" },
+                "reviewed_by": { "type": ["string", "null"] },
+                "status": { "type": "string", "enum": ["active", "reviewed", "expired"] }
+              },
+              "required": ["version", "reason", "review_date"]
+            }
+          },
+          "migrations": {
+            "type": "object",
+            "description": "Legacy migration status tracking",
+            "additionalProperties": { "type": "string" }
+          },
+          "coordination": {
+            "type": "object",
+            "description": "Cross-project coordination info",
+            "properties": {
+              "type": { "type": "string" },
+              "reason": { "type": "string" },
+              "dependents": { "type": ["string", "array"] },
+              "dependencies": { "type": "array", "items": { "type": "string" } },
+              "related_to": { "type": "string" }
+            }
+          },
+          "deployed_rollouts": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of deployed rollouts"
+          }
+        },
+        "required": ["id", "name", "path", "host", "type", "status"]
+      }
+    },
+    "canaries": {
+      "type": "array",
+      "description": "Active canary testing",
+      "items": {
+        "type": "object",
+        "properties": {
+          "protocol": { "type": "string" },
+          "version": { "type": "string" },
+          "canary_project": { "type": "string" },
+          "started": { "type": "string", "format": "date" },
+          "expected_rollout": { "type": "string", "format": "date" },
+          "status": { "type": "string", "enum": ["testing", "promoted", "aborted"] },
+          "pending_projects": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        },
+        "required": ["protocol", "version", "canary_project", "started", "status"]
+      }
+    }
+  },
+  "required": ["version", "projects"]
+}

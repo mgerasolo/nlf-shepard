@@ -1,0 +1,86 @@
+## Cross-Project Coordination
+
+This is a **core/framework project** that other projects depend on.
+
+**Before making breaking changes:**
+
+1. Check dependent projects:
+```bash
+./scripts/check-dependencies.sh
+
+# Or manually check specific dependents:
+gh issue list --repo mgerasolo/{DEPENDENT_PROJECT} --search "depends-on:{PROJECT_ID}" --json number,title
+```
+
+2. Create notification issue:
+```bash
+gh issue create --title "Breaking: [description of change]" \
+  --label "breaking:next-release" \
+  --body "**Impact:** [what breaks and why]
+**Timeline:** [when this will merge/deploy]
+**Migration Guide:** [how to update]
+**Affected Projects:** {COMMA_SEPARATED_DEPENDENTS}
+
+## Breaking Changes
+- [List specific breaking changes]
+
+## Migration Steps
+1. [Step-by-step migration instructions]
+2. ...
+
+## Timeline
+- PR Open: [date]
+- Target Merge: [date]
+- Deployment: [date]"
+```
+
+3. After merge, update Infisical state so dependent projects are notified:
+```bash
+source ~/Infrastructure/scripts/secrets.sh
+
+# Update breaking changes list
+secret_set {PROJECT_ID_UPPER}_BREAKING_CHANGES "$(gh issue list --repo mgerasolo/{PROJECT_ID} --label breaking:next-release --json number,title --jq '[.[] | "#\(.number): \(.title)"] | join(",")')"
+
+# Update stable version
+secret_set {PROJECT_ID_UPPER}_VERSION "$(git describe --tags --abbrev=0 2>/dev/null || echo 'dev')"
+```
+
+4. After dependent projects migrate, move issue from `breaking:next-release` to `breaking:deployed`:
+```bash
+gh issue edit {ISSUE_NUMBER} --remove-label "breaking:next-release" --add-label "breaking:deployed"
+```
+
+**When adding new features/capabilities:**
+
+```bash
+gh issue create --title "Feature: [description]" \
+  --label "provides:feature-name" \
+  --body "New capability available: [description]
+
+## Usage
+[How dependent projects can use this]
+
+## Documentation
+[Link to docs]"
+```
+
+**Cross-project label taxonomy:**
+- `breaking:next-release` - Breaking change coming soon
+- `breaking:deployed` - Breaking change now live
+- `provides:feature-name` - New feature/capability available
+- `blocks:{project-name}` - Known blocker for specific dependent project
+
+**Helper commands:**
+```bash
+# Quick dependency check
+./scripts/check-dependencies.sh
+
+# List all dependent project issues
+{FOR_EACH_DEPENDENT}
+gh issue list --repo mgerasolo/{DEPENDENT} --search "depends-on:{PROJECT_ID}"
+{END_FOR_EACH}
+
+# Update coordination state
+source ~/Infrastructure/scripts/secrets.sh
+secret_set {PROJECT_ID_UPPER}_BREAKING_CHANGES "[comma-separated list]"
+```

@@ -1,0 +1,206 @@
+{
+  "version": "2.0.0",
+  "description": "NLF Protocol Catalog - Complete protocol lifecycle management",
+  "protocols": {
+    "baton": {
+      "version": "1.1.0",
+      "description": "Context management for compaction recovery",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/baton/",
+      "entry": "PROTOCOL.md",
+      "hooks": ["pre-compact", "session-init"],
+      "commands": ["baton.md"],
+      "dependencies": []
+    },
+    "worktree": {
+      "version": "1.0.0",
+      "description": "Git worktree lifecycle management",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/worktree/",
+      "entry": "SKILL.md",
+      "hooks": [],
+      "commands": ["worktree.md"],
+      "dependencies": []
+    },
+    "ai-workflow": {
+      "version": "2.0.0",
+      "description": "10-phase AI-assisted development workflow with TDD enforcement",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/ai-workflow/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": []
+    },
+    "deployment": {
+      "version": "1.0.0",
+      "description": "Deployment management protocol",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/deployment/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": ["deployment.md"],
+      "dependencies": []
+    },
+    "new-app": {
+      "version": "1.0.0",
+      "description": "Bootstrap new application projects",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/new-app/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": ["new-app.md"],
+      "dependencies": []
+    },
+    "sidebar": {
+      "version": "1.0.0",
+      "description": "Conversation fork/sidebar management",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/sidebar/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": ["sidebar.md"],
+      "dependencies": ["work-tracking"]
+    },
+    "shepherd": {
+      "version": "2.0.0",
+      "description": "Protocol lifecycle management system",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_infrastructure/ShepardProtocol/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": ["graph"],
+      "note": "Graph required for impact analysis"
+    },
+    "cross-project": {
+      "version": "3.0.0",
+      "description": "Cross-project communication via GitHub issues",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/cross-project/",
+      "entry": "cross-project-communication.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": []
+    },
+    "image-generation": {
+      "version": "1.0.0",
+      "description": "N8N image generation webhook",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/image-generation/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": [],
+      "endpoint": "http://10.0.0.27:2750/webhook/generate-image"
+    },
+    "infrastructure-alerts": {
+      "version": "1.0.0",
+      "description": "N8N Slack/GitHub alerting webhook",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/infrastructure-alerts/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": []
+    },
+    "work-tracking": {
+      "version": "1.0.0",
+      "description": "Session, branch, and task tracking across Claude conversations",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_resources/protocols/work-tracking/",
+      "entry": "README.md",
+      "hooks": ["SessionStart", "Stop", "UserPromptSubmit"],
+      "commands": [],
+      "dependencies": [],
+      "database": "~/.claude/db/work-log.db",
+      "cli": "~/.claude/hooks/work-log.sh"
+    },
+    "herding": {
+      "version": "1.0.0",
+      "description": "Feedback collection for deployed protocols",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_infrastructure/ShepardProtocol/herding/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": ["shepherd"]
+    },
+    "research": {
+      "version": "1.0.0",
+      "description": "Structured research workflow with phase tracking",
+      "status": "active",
+      "deploymentType": "project",
+      "repo": "/mnt/foundry_resources/protocols/research/",
+      "entry": "RESEARCH-ROADMAP.md",
+      "hooks": [],
+      "commands": ["research.md"],
+      "dependencies": []
+    },
+    "ntfy": {
+      "version": "1.0.0",
+      "description": "Notification system via ntfy",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_resources/protocols/ntfy/",
+      "entry": "PROTOCOL.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": []
+    },
+    "graph": {
+      "version": "0.1.0",
+      "description": "Infrastructure knowledge graph",
+      "status": "planned",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_infrastructure/graph/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": ["graph.md"],
+      "dependencies": [],
+      "note": "Work in progress - see one-offs/active/2026-02-graph-knowledge-base/"
+    },
+    "response-format": {
+      "version": "1.0.1",
+      "description": "Progress Tree response format standard",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_resources/protocols/response-format/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": [],
+      "note": "Deploys to ~/.claude/rules/response-format.md"
+    },
+    "herding-guidelines": {
+      "version": "1.2.0",
+      "description": "Guidelines for submitting protocol feedback via herding",
+      "status": "active",
+      "deploymentType": "host",
+      "repo": "/mnt/foundry_resources/protocols/herding-guidelines/",
+      "entry": "README.md",
+      "hooks": [],
+      "commands": [],
+      "dependencies": ["shepherd", "response-format"],
+      "note": "Deploys to ~/.claude/rules/herding-guidelines.md"
+    }
+  },
+  "meta": {
+    "created": "2026-02-08",
+    "lastUpdated": "2026-02-16",
+    "maintainer": "infrastructure",
+    "schemaVersion": "2.0.0"
+  }
+}

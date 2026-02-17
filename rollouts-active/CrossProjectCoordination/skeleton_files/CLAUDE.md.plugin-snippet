@@ -1,0 +1,84 @@
+## Cross-Project Coordination
+
+This is a **plugin/consumer project** that depends on upstream projects.
+
+**At session start, check upstream dependencies:**
+
+```bash
+./scripts/check-dependencies.sh
+
+# Or check Infisical state directly:
+source ~/Infrastructure/scripts/secrets.sh
+{FOR_EACH_DEPENDENCY}
+BREAKING=$(secret_get {DEPENDENCY_UPPER}_BREAKING_CHANGES 2>/dev/null || echo "")
+[[ -n "$BREAKING" ]] && echo "⚠️  {DEPENDENCY} breaking changes: $BREAKING"
+
+VERSION=$(secret_get {DEPENDENCY_UPPER}_VERSION 2>/dev/null || echo "unknown")
+echo "{DEPENDENCY} version: $VERSION"
+{END_FOR_EACH}
+```
+
+**When blocked by upstream issue:**
+
+```bash
+# Create tracking issue
+gh issue create \
+  --title "Blocked: Waiting for {DEPENDENCY} #{ISSUE_NUMBER}" \
+  --label "blocked,depends-on:{DEPENDENCY}#{ISSUE_NUMBER}" \
+  --body "Cannot proceed until {DEPENDENCY}#{ISSUE_NUMBER} is resolved.
+
+**Reason:** [why this blocks work]
+**Workaround:** [any temporary workarounds]
+**Next Steps:** [what happens after unblocked]"
+
+# Comment on upstream issue to notify them
+gh issue comment {ISSUE_NUMBER} --repo mgerasolo/{DEPENDENCY} \
+  --body "This is blocking {PROJECT_NAME} - see {PROJECT_REPO}#${NEW_ISSUE_NUMBER}"
+```
+
+**Before submitting PR, verify compatibility:**
+
+```bash
+# Check latest upstream versions
+{FOR_EACH_DEPENDENCY}
+{DEPENDENCY_UPPER}_VERSION=$(gh api repos/mgerasolo/{DEPENDENCY}/releases/latest --jq .tag_name 2>/dev/null || echo "no releases")
+echo "Testing against {DEPENDENCY} ${DEPENDENCY_UPPER}_VERSION"
+{END_FOR_EACH}
+
+# Check for breaking changes
+gh issue list --repo mgerasolo/{DEPENDENCY} --label "breaking:deployed" --json number,title
+```
+
+**When upstream breaking change is resolved:**
+
+```bash
+# Update issue status
+gh issue edit {BLOCKED_ISSUE_NUMBER} --remove-label "blocked" --add-label "ready"
+
+# Or close if no longer relevant
+gh issue close {BLOCKED_ISSUE_NUMBER} --comment "Unblocked by {DEPENDENCY}#{UPSTREAM_ISSUE_NUMBER}"
+```
+
+**Cross-project label taxonomy:**
+- `blocked` - Blocked by external dependency
+- `depends-on:{project}#{number}` - Specific upstream dependency
+- `upstream-breaking` - Needs update for upstream breaking change
+
+**Helper commands:**
+```bash
+# Quick upstream check
+./scripts/check-dependencies.sh
+
+# Check specific dependency for breaking changes
+gh issue list --repo mgerasolo/{DEPENDENCY} --label "breaking:next-release"
+
+# List all blocked issues in this project
+gh issue list --label "blocked" --json number,title,labels
+```
+
+**Dependencies:**
+{FOR_EACH_DEPENDENCY}
+- **{DEPENDENCY}**: {DEPENDENCY_DESCRIPTION}
+  - Repo: `mgerasolo/{DEPENDENCY}`
+  - Check: `gh issue list --repo mgerasolo/{DEPENDENCY} --label "breaking:next-release"`
+{END_FOR_EACH}

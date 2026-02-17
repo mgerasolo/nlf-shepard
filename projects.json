@@ -1,0 +1,753 @@
+{
+  "$schema": "./schemas/projects-schema.json",
+  "version": "1.0",
+  "updated": "2026-02-16T02:30:00Z",
+  "note": "ClaudeRules rollout deployed to active projects.",
+  "projects": [
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "path": "/home/mgerasolo/Infrastructure",
+      "host": "friday",
+      "type": "infrastructure",
+      "priority": "critical",
+      "status": "active",
+      "tags": [
+        "infrastructure",
+        "network",
+        "automation"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "complete",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "completed",
+        "BatonCommand": "complete",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "complete",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "core",
+        "reason": "Provides shared infrastructure, deployment orchestration, secrets management (Infisical), and CI/CD for all projects",
+        "dependents": "all-projects",
+        "dependencies": []
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "BatonCommand",
+        "ClaudeRules",
+        "CrossProjectCoordination",
+        "ImageGeneration",
+        "InfisicalMigration",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "appbrain",
+      "name": "AppBrain",
+      "path": "/home/mgerasolo/Dev/appbrain",
+      "host": "stark",
+      "type": "production",
+      "priority": "critical",
+      "status": "active",
+      "tags": [
+        "ai",
+        "api",
+        "production"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "complete",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "completed",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "core",
+        "reason": "Monorepo framework (pnpm/turbo) providing modular backend packages and APIs for NLF applications. Designed as shared framework but currently not consumed by other projects.",
+        "dependents": [],
+        "dependencies": []
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "CrossProjectCoordination",
+        "InfisicalMigration",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "bmad"
+      }
+    },
+    {
+      "id": "finance-ingest",
+      "name": "Finance Ingest",
+      "path": "/home/mgerasolo/Dev/finance-ingest",
+      "host": "stark",
+      "type": "production",
+      "priority": "high",
+      "status": "active",
+      "tags": [
+        "finance",
+        "production"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "complete",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Independent financial data ingestion library. No internal project dependencies detected. Only depends on external packages (AWS SDK, SnapTrade SDK, PostgreSQL)."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "InfisicalMigration",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "doughflow",
+      "name": "DoughFlow",
+      "path": "/home/mgerasolo/Dev/doughflow",
+      "host": "stark",
+      "type": "production",
+      "priority": "high",
+      "status": "active",
+      "tags": [
+        "finance",
+        "production"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "complete",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "complete",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Independent financial application. No internal project dependencies detected. Only depends on external packages (Supabase, React, Next.js)."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "ImageGeneration",
+        "InfisicalMigration",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "dashcentral",
+      "name": "DashCentral",
+      "path": "/home/mgerasolo/Dev/dashcentral",
+      "host": "stark",
+      "type": "production",
+      "priority": "medium",
+      "status": "active",
+      "tags": [
+        "dashboard",
+        "production"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "pending",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "skip_reason": "Project doesn't exist at /home/mgerasolo/Dev/dashcentral",
+      "coordination": {
+        "type": "standalone",
+        "reason": "Standalone self-hosted dashboard platform. No package.json or internal dependencies detected."
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "admin",
+      "name": "Dev Admin",
+      "path": "/home/mgerasolo/Dev/admin",
+      "host": "stark",
+      "type": "development",
+      "priority": "medium",
+      "status": "active",
+      "tags": [
+        "admin",
+        "tools"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Development admin tools utility. No internal project dependencies."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "basic-habits",
+      "name": "Basic Habits",
+      "path": "/home/mgerasolo/Dev/basic-habits",
+      "host": "stark",
+      "type": "production",
+      "priority": "medium",
+      "status": "retired",
+      "tags": [
+        "web",
+        "personal"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Independent personal web application. No internal project dependencies."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "PushAllCommand",
+        "mcp-gateway-config",
+        "Worktree"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "self-improving-ai",
+      "name": "Self-Improving AI",
+      "path": "/home/mgerasolo/Dev/self-improving-ai",
+      "host": "stark",
+      "type": "development",
+      "priority": "high",
+      "status": "active",
+      "tags": [
+        "ai",
+        "typescript",
+        "reference-implementation"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Reference implementation for AI patterns. Independent application. No internal project dependencies detected."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "start-matt",
+      "name": "Start.Matt",
+      "path": "/home/mgerasolo/Dev/start.matt",
+      "host": "stark",
+      "type": "personal",
+      "priority": "low",
+      "status": "retired",
+      "tags": [
+        "web",
+        "personal"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Independent personal portfolio/startup page. No internal project dependencies."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "PushAllCommand",
+        "mcp-gateway-config",
+        "Worktree"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "shadcn-wireframer",
+      "name": "Shadcn Wireframer",
+      "path": "/home/mgerasolo/Dev/shadcn-wireframer",
+      "host": "stark",
+      "type": "development",
+      "priority": "low",
+      "status": "active",
+      "tags": [
+        "web",
+        "tools",
+        "design"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "complete",
+        "migrationtostandards2": "complete",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "complete",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "pending",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Standalone design tool/wireframer utility. No internal project dependencies."
+      },
+      "deployed_rollouts": [
+        "Baton&PromptResponseFormat",
+        "ClaudeRules",
+        "PushAllCommand",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "test-app",
+      "name": "Test App",
+      "path": "/home/mgerasolo/Dev/test-app",
+      "host": "friday",
+      "type": "experimental",
+      "priority": "low",
+      "status": "retired",
+      "tags": [
+        "experimental",
+        "test"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "expertchat",
+      "name": "ExpertChat",
+      "path": "/home/mgerasolo/Dev/expertchat",
+      "host": "stark",
+      "type": "experimental",
+      "priority": "low",
+      "status": "paused",
+      "tags": [
+        "ai",
+        "experimental"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "habits-tasks",
+      "name": "Habit & Tasks",
+      "path": "/home/mgerasolo/Dev/habits-tasks",
+      "host": "stark",
+      "type": "experimental",
+      "priority": "low",
+      "status": "paused",
+      "tags": [
+        "web",
+        "experimental"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "health",
+      "name": "Health",
+      "path": "/home/mgerasolo/Dev/health",
+      "host": "stark",
+      "type": "experimental",
+      "priority": "low",
+      "status": "paused",
+      "tags": [
+        "web",
+        "experimental"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "n8n",
+      "name": "N8N",
+      "path": "/home/mgerasolo/Dev/n8n",
+      "host": "stark",
+      "type": "infrastructure",
+      "priority": "low",
+      "status": "paused",
+      "tags": [
+        "automation",
+        "experimental"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "aikbase",
+      "name": "AIKBase",
+      "path": "/home/mgerasolo/Dev/aikbase",
+      "host": "stark",
+      "type": "experimental",
+      "priority": "low",
+      "status": "paused",
+      "tags": [
+        "ai",
+        "experimental"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "skip",
+        "migrationtostandards2": "skip",
+        "InfisicalMigration": "skip",
+        "Tasks&Issues": "skip",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "skip",
+        "mcp-gateway-config": "skip",
+        "Worktree": "skip"
+      },
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "habitarcade-poc",
+      "name": "HabitArcade POC",
+      "path": "/home/mgerasolo/Dev/habitarcade-poc",
+      "host": "stark",
+      "type": "development",
+      "priority": "medium",
+      "status": "active",
+      "tags": [
+        "web",
+        "gamification",
+        "poc"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {
+        "Baton&PromptResponseFormat": "pending",
+        "migrationtostandards2": "pending",
+        "InfisicalMigration": "pending",
+        "Tasks&Issues": "pending",
+        "CrossProjectCoordination": "skip",
+        "BatonCommand": "pending",
+        "mcp-gateway-config": "complete",
+        "Worktree": "complete",
+        "ImageGeneration": "complete",
+        "ClaudeRules": "complete"
+      },
+      "coordination": {
+        "type": "standalone",
+        "reason": "Proof of concept for habit gamification. Independent application."
+      },
+      "deployed_rollouts": [
+        "ClaudeRules",
+        "ImageGeneration",
+        "Worktree",
+        "mcp-gateway-config"
+      ],
+      "methodology": {
+        "type": "bmad"
+      }
+    },
+    {
+      "id": "sunflower-uikit",
+      "name": "Sunflower UIKit",
+      "path": "/home/mgerasolo/Dev/sunflower-uikit",
+      "host": "stark",
+      "type": "development",
+      "priority": "medium",
+      "status": "active",
+      "tags": [
+        "ui",
+        "design-system",
+        "components"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {},
+      "coordination": {
+        "type": "standalone",
+        "reason": "UI component library / design system"
+      },
+      "deployed_rollouts": [],
+      "methodology": {
+        "type": "none"
+      }
+    },
+    {
+      "id": "sunflower-design-os",
+      "name": "Sunflower Design OS",
+      "path": "/home/mgerasolo/Dev/sunflower-design-os",
+      "host": "stark",
+      "type": "development",
+      "priority": "medium",
+      "status": "active",
+      "tags": [
+        "workflow",
+        "design-system",
+        "ai-workflow"
+      ],
+      "contacts": [
+        "mgerasolo"
+      ],
+      "migrations": {},
+      "coordination": {
+        "type": "related",
+        "related_to": "sunflower-uikit",
+        "reason": "Workflow orchestration layer for Sunflower UIKit"
+      },
+      "deployed_rollouts": [],
+      "note": "Reference implementation for ai-workflow v2.0.0 features",
+      "methodology": {
+        "type": "design-os",
+        "commands": [
+          "wf",
+          "marathon"
+        ],
+        "phases": [
+          "design",
+          "implement",
+          "verify",
+          "human-review"
+        ]
+      }
+    }
+  ],
+  "hosts": {
+    "stark": {
+      "ip": "10.0.0.31",
+      "description": "Primary development VM",
+      "ssh": "ssh -p 3322 mgerasolo@10.0.0.31"
+    },
+    "friday": {
+      "ip": "10.0.0.35",
+      "description": "Infrastructure automation VM",
+      "ssh": "ssh -p 3322 mgerasolo@10.0.0.35"
+    },
+    "parker": {
+      "ip": "10.0.0.34",
+      "description": "Experimental/testing VM",
+      "ssh": "ssh -p 3322 mgerasolo@10.0.0.34"
+    }
+  },
+  "migration_statuses": {
+    "pending": "Not started",
+    "in_progress": "Currently being worked on",
+    "complete": "Migration finished and verified",
+    "skip": "Not applicable or intentionally skipped",
+    "blocked": "Blocked by dependency or issue",
+    "failed": "Attempted but failed, needs attention"
+  },
+  "project_types": {
+    "production": "Live, customer-facing applications",
+    "development": "Active development, reference implementations",
+    "personal": "Personal use, lower priority",
+    "experimental": "Testing, proof-of-concept",
+    "infrastructure": "Infrastructure automation projects",
+    "paused": "Temporarily inactive",
+    "retired": "No longer maintained, archived for historical reference"
+  },
+  "priority_levels": {
+    "critical": "Mission-critical, production systems",
+    "high": "Important for operations",
+    "medium": "Moderate importance",
+    "low": "Nice to have, low impact"
+  }
+}
