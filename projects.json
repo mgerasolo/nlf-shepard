@@ -652,7 +652,7 @@
       "host": "stark",
       "type": "development",
       "priority": "medium",
-      "status": "active",
+      "status": "alias",
       "tags": [
         "ui",
         "design-system",
@@ -663,13 +663,15 @@
       ],
       "migrations": {},
       "coordination": {
-        "type": "standalone",
-        "reason": "UI component library / design system"
+        "type": "alias",
+        "canonical": "sunflower-design-os",
+        "reason": "UIKit is the conceptual name; Design OS contains the actual implementation"
       },
       "deployed_rollouts": [],
       "methodology": {
         "type": "none"
-      }
+      },
+      "note": "ALIAS: Use sunflower-design-os. This entry exists for name recognition only."
     },
     {
       "id": "sunflower-design-os",
@@ -689,9 +691,11 @@
       ],
       "migrations": {},
       "coordination": {
-        "type": "related",
-        "related_to": "sunflower-uikit",
-        "reason": "Workflow orchestration layer for Sunflower UIKit"
+        "type": "canonical",
+        "aliases": [
+          "sunflower-uikit"
+        ],
+        "reason": "Canonical implementation of Sunflower design system and workflow"
       },
       "deployed_rollouts": [],
       "note": "Reference implementation for ai-workflow v2.0.0 features",
